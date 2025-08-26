@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.4">
+    <title>Checkout - Biz Group 4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 🔹 Global Variables (Dark Theme) */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #5f75ee;
+            --secondary: #06d6a0;
+            --accent: #9d4edd;
+            --dark: #1a202c;
+            --dark-light: #2d3748;
+            --text: #f8f9fa;
+            --text-muted: #e2e8f0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-light: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --card-bg: rgba(45, 55, 72, 0.85);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+            --body-bg: linear-gradient(135deg, var(--dark), var(--dark-light));
+            --header-bg: rgba(26, 32, 44, 0.95);
+        }
+
+        /* 💡 Light Theme Variables */
+        [data-theme="light"] {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --primary-light: #007bff;
+            --secondary: #28a745;
+            --accent: #6610f2;
+            --dark: #f8f9fa;
+            --dark-light: #e9ecef;
+            --text: #212529;
+            --text-muted: #495057;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-light: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
+            --body-bg: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            --header-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        /* 💡 Mai Kyau Theme Variables (Beautiful Pink/Purple Theme) */
+        [data-theme="mai-kyau"] {
+            --primary: #e91e63;
+            --primary-dark: #c2185b;
+            --primary-light: #f8bbd0;
+            --secondary: #ff4081;
+            --accent: #ff9800;
+            --dark: #880e4f;
+            --dark-light: #ad1457;
+            --text: #fce4ec;
+            --text-muted: #f8bbd0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-light: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --card-bg: rgba(252, 228, 236, 0.9);
+            --shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+            --shadow-hover: 0 15px 30px rgba(233, 30, 99, 0.3);
+            --body-bg: linear-gradient(135deg, var(--dark), var(--dark-light));
+            --header-bg: rgba(136, 14, 79, 0.95);
+        }
+
+        /* 💡 Ocean Theme Variables */
+        [data-theme="ocean"] {
+            --primary: #00bcd4;
+            --primary-dark: #0097a7;
+            --primary-light: #b2ebf2;
+            --secondary: #006064;
+            --accent: #ff5722;
+            --dark: #006064;
+            --dark-light: #00838f;
+            --text: #e0f7fa;
+            --text-muted: #b2ebf2;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-light: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --card-bg: rgba(224, 247, 250, 0.9);
+            --shadow: 0 10px 25px rgba(0, 188, 212, 0.2);
+            --shadow-hover: 0 15px 30px rgba(0, 188, 212, 0.3);
+            --body-bg: linear-gradient(135deg, var(--dark), var(--dark-light));
+            --header-bg: rgba(0, 96, 100, 0.95);
+        }
+
+        /* 💡 Forest Theme Variables */
+        [data-theme="forest"] {
+            --primary: #4caf50;
+            --primary-dark: #388e3c;
+            --primary-light: #c8e6c9;
+            --secondary: #2e7d32;
+            --accent: #ffc107;
+            --dark: #1b5e20;
+            --dark-light: #2e7d32;
+            --text: #e8f5e9;
+            --text-muted: #c8e6c9;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-light: linear-gradient(135deg, var(--primary-light), var(--accent));
+            --card-bg: rgba(232, 245, 233, 0.9);
+            --shadow: 0 10px 25px rgba(76, 175, 80, 0.2);
+            --shadow-hover: 0 15px 30px rgba(76, 175, 80, 0.3);
+            --body-bg: linear-gradient(135deg, var(--dark), var(--dark-light));
+            --header-bg: rgba(27, 94, 32, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--body-bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 15% 50%, rgba(67, 97, 238, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 85% 30%, rgba(157, 78, 221, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+            z-index: -1;
+            transition: background 0.5s ease;
+        }
+        
+        [data-theme="light"] body::before {
+            background: radial-gradient(circle at 15% 50%, rgba(0, 123, 255, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 85% 30%, rgba(102, 16, 242, 0.1) 0%, transparent 20%);
+        }
+        
+        [data-theme="mai-kyau"] body::before {
+            background: radial-gradient(circle at 15% 50%, rgba(233, 30, 99, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 85% 30%, rgba(255, 152, 0, 0.1) 0%, transparent 20%);
+        }
+        
+        [data-theme="ocean"] body::before {
+            background: radial-gradient(circle at 15% 50%, rgba(0, 188, 212, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 85% 30%, rgba(255, 87, 34, 0.1) 0%, transparent 20%);
+        }
+        
+        [data-theme="forest"] body::before {
+            background: radial-gradient(circle at 15% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 85% 30%, rgba(255, 193, 7, 0.1) 0%, transparent 20%);
+        }
+
+        a { 
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        /* 🔹 Header */
+        .header-container {
+            background: var(--header-bg);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.4);
+            transition: var(--transition);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        nav ul li a {
+            color: var(--text);
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 5px;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: var(--transition);
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-light);
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            font-size: 24px;
+            transition: var(--transition);
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(6, 214, 160, 0.5);
+        }
+
+        /* 🔹 Theme Switcher Button */
+        .theme-switcher {
+            position: relative;
+            display: inline-block;
+            margin-left: 20px;
+        }
+        
+        .theme-switcher-btn {
+            background: var(--header-bg);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            color: var(--text);
+        }
+        
+        .theme-switcher-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .theme-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--header-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-hover);
+            padding: 10px;
+            margin-top: 10px;
+            width: 180px;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(12px);
+        }
+        
+        .theme-options.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .theme-option:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .theme-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+        }
+        
+        .theme-light .theme-color {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+        }
+        
+        .theme-dark .theme-color {
+            background: linear-gradient(135deg, #4361ee, #9d4edd);
+        }
+        
+        .theme-mai-kyau .theme-color {
+            background: linear-gradient(135deg, #e91e63, #ff9800);
+        }
+        
+        .theme-ocean .theme-color {
+            background: linear-gradient(135deg, #00bcd4, #ff5722);
+        }
+        
+        .theme-forest .theme-color {
+            background: linear-gradient(135deg, #4caf50, #ffc107);
+        }
+        
+        /* 🔹 Hamburger Button */
+        #hamburger-menu {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 12px;
+            background: var(--gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            user-select: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #hamburger-menu:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+
+        /* 🔹 Side Nav */
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: rgba(45, 55, 72, 0.95);
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        [data-theme="light"] .nav-menu {
+            background: rgba(233, 236, 239, 0.95);
+        }
+
+        [data-theme="mai-kyau"] .nav-menu {
+            background: rgba(173, 20, 87, 0.95);
+        }
+
+        [data-theme="ocean"] .nav-menu {
+            background: rgba(0, 131, 143, 0.95);
+        }
+
+        [data-theme="forest"] .nav-menu {
+            background: rgba(46, 125, 50, 0.95);
+        }
+
+        .nav-menu a {
+            color: var(--text);
+            padding: 18px 25px;
+            font-weight: 600;
+            border-left: 4px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .nav-menu a:hover {
+            background: linear-gradient(90deg, rgba(67, 97, 238, 0.15), transparent);
+            padding-left: 30px;
+            border-left-color: var(--primary);
+        }
+        
+        .nav-menu.active { 
+            left: 0; 
+        }
+
+        /* 🔹 Checkout Section */
+        .checkout {
+            padding: 80px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .checkout h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .checkout h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .checkout-form, .order-summary {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .checkout-form:hover, .order-summary:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .checkout-form::before, .order-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .checkout-form h2, .order-summary h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkout-form h2::before, .order-summary h2::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gradient);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            background: rgba(26, 32, 44, 0.6);
+            color: var(--text);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        [data-theme="light"] .form-group input, [data-theme="light"] .form-group select {
+            background: #fff;
+            border-color: #ced4da;
+            color: var(--text);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+            background: rgba(26, 32, 44, 0.8);
+        }
+        
+        [data-theme="light"] .form-group input:focus, [data-theme="light"] .form-group select:focus {
+            background: #fff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .checkout-total {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .checkout-total::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .checkout-total h3 {
+            font-size: 1.8rem;
+            color: var(--primary-light);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 10px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--gradient-light);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .order-item {
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 -10px;
+            border-radius: 8px;
+        }
+
+        [data-theme="light"] .order-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-item .name {
+            font-weight: 600;
+        }
+        
+        .order-item .price {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        /* Order Confirmation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            animation: modalFadeIn 0.5s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .modal-content {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .modal-close:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-icon {
+            font-size: 60px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(6, 214, 160, 0.4);
+        }
+        
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-light);
+        }
+        
+        .modal p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .order-details {
+            text-align: left;
+            background: rgba(26, 32, 44, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .order-details {
+            background: #f0f2f5;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .order-details h3 {
+            margin-bottom: 15px;
+            color: var(--primary-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        [data-theme="light"] .order-details h3 {
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-details p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .order-status {
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 15px;
+            box-shadow: 0 0 10px rgba(67, 97, 238, 0.3);
+        }
+
+        /* 🔹 Footer */
+        footer {
+            background: var(--header-bg);
+            color: var(--text);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 80px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+        
+        footer p {
+            font-size: 1.1rem;
+        }
+
+        /* 🔹 Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 🔹 Responsive Design */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .checkout h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-switcher {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .theme-options {
+                right: auto;
+                left: 0;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            nav ul {
+                justify-content: center;
+            }
+            
+            .checkout {
+                padding: 60px 15px;
+            }
+            
+            .checkout-form, .order-summary {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    
+    <header>
+        <div id="hamburger-menu"><i class="fas fa-bars"></i></div>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            <a href="delivery.html"><i class="fas fa-shipping-fast"></i> Delivery order</a>
+            <a href="setting.html"><i class="fas fa-cog"></i> Setting</a>
+        </div>
+        
+        <div class="header-container">
+            <div class="logo">Biz Group 4</div>
+            <nav>
+                <ul>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="offers.html">Special Offers</a></li>
+                    <li><a href="reviews.html">Reviews</a></li>
+                    <li><a href="faqs.html">FAQs</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href="checkout.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+                <div class="theme-switcher">
+                    <div class="theme-switcher-btn" id="theme-switcher-btn">
+                        <i class="fas fa-palette"></i> Theme
+                    </div>
+                    <div class="theme-options" id="theme-options">
+                        <div class="theme-option theme-dark" data-theme="dark">
+                            <div class="theme-color"></div>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option theme-light" data-theme="light">
+                            <div class="theme-color"></div>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option theme-mai-kyau" data-theme="mai-kyau">
+                            <div class="theme-color"></div>
+                            <span>Mai Kyau</span>
+                        </div>
+                        <div class="theme-option theme-ocean" data-theme="ocean">
+                            <div class="theme-color"></div>
+                            <span>Ocean</span>
+                        </div>
+                        <div class="theme-option theme-forest" data-theme="forest">
+                            <div class="theme-color"></div>
+                            <span>Forest</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="checkout">
+        <h1>Checkout</h1>
+        
+        <div class="checkout-total">
+            <h3>Total: $<span id="checkoutTotal">0</span></h3>
+        </div>
+        
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <h2>Shipping Information</h2>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Shipping Address</label>
+                        <input type="text" id="address" placeholder="Enter your shipping address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" placeholder="Enter your city" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="zipCode">ZIP Code</label>
+                            <input type="text" id="zipCode" placeholder="ZIP code" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" required>
+                                <option value="">Select country</option>
+                                <option value="nigeria">Nigeria</option>
+                                <option value="ghana">Ghana</option>
+                                <option value="kenya">Kenya</option>
+                                <option value="south-africa">South Africa</option>
+                                <option value="egypt">Egypt</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h2>Payment Details</h2>
+                    
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry">Expiry Date</label>
+                            <input type="text" id="expiry" placeholder="MM/YY" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Place Order</button>
+                </form>
+            </div>
+            
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div id="orderItems">
+                    </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Order Confirmed!</h2>
+            <p>Thank you for your purchase. Your order has been received.</p>
+            
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <p><span>Order ID:</span> <span id="orderId">BG4-12345</span></p>
+                <p><span>Date:</span> <span id="orderDate"></span></p>
+                <p><span>Total:</span> $<span id="orderTotal">0</span></p>
+                <p><span>Shipping to:</span> <span id="orderAddress"></span></p>
+            </div>
+            
+            <div class="order-status">Status: Pending</div>
+            <p>You will receive an email confirmation shortly.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Biz Group 4. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const hamburger = document.getElementById('hamburger-menu');
+        const navMenu = document.getElementById('navMenu');
+        const cartCount = document.getElementById('cart-count');
+        const checkoutForm = document.getElementById("checkoutForm");
+        const themeSwitcherBtn = document.getElementById('theme-switcher-btn');
+        const themeOptions = document.getElementById('theme-options');
+        const themeOptionButtons = document.querySelectorAll('.theme-option');
+        const body = document.body;
+        
+        function init() {
+            updateCartCount();
+            setupThemeSwitcher();
+            renderOrderSummary();
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener("click", () => {
+                    navMenu.classList.toggle("active");
+                });
+            }
+            
+            if (checkoutForm) {
+                checkoutForm.addEventListener("submit", handleCheckout);
+            }
+            
+            const modalClose = document.getElementById("modalClose");
+            if (modalClose) {
+                modalClose.addEventListener("click", function () {
+                    const modal = document.getElementById("orderModal");
+                    if (modal) modal.style.display = "none";
+                });
+            }
+            
+            window.addEventListener("click", function (event) {
+                const modal = document.getElementById("orderModal");
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+        
+        // 🔹 Theme Switcher Functionality
+        function setupThemeSwitcher() {
+            // Check for saved theme in localStorage
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            setTheme(savedTheme);
+
+            // Theme switcher button
+            themeSwitcherBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                themeOptions.classList.toggle('active');
+            });
+            
+            // Theme options
+            themeOptionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const theme = button.getAttribute('data-theme');
+                    setTheme(theme);
+                    themeOptions.classList.remove('active');
+                });
+            });
+            
+            // Close theme options when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!themeSwitcherBtn.contains(e.target) && !themeOptions.contains(e.target)) {
+                    themeOptions.classList.remove('active');
+                }
+            });
+        }
+        
+        // Set theme function
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            
+            // Update theme switcher button text
+            const themeName = theme === 'mai-kyau' ? 'Mai Kyau' : 
+                             theme.charAt(0).toUpperCase() + theme.slice(1);
+            themeSwitcherBtn.innerHTML = `<i class="fas fa-palette"></i> ${themeName}`;
+            
+            // Save theme preference
+            localStorage.setItem('theme', theme);
+        }
+
+        // 🔹 Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+            if (cartCount) cartCount.textContent = totalItems;
+        }
+
+        // 🔹 Render Order Summary
+        function renderOrderSummary() {
+            const orderItems = document.getElementById("orderItems");
+            const checkoutTotal = document.getElementById("checkoutTotal");
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (!orderItems || !checkoutTotal) return;
+
+            orderItems.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                orderItems.innerHTML = "<p>Your cart is empty.</p>";
+                checkoutTotal.textContent = "0";
+                return;
+            }
+
+            cart.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("order-item");
+                div.innerHTML = `<span class="name">${item.name} x ${item.quantity}</span>
+                                 <span class="price">$${(item.price * item.quantity).toFixed(2)}</span>`;
+                orderItems.appendChild(div);
+                total += item.price * item.quantity;
+            });
+
+            checkoutTotal.textContent = total.toFixed(2);
+            updateCartCount();
+        }
+
+        // 🔹 Handle Checkout Form Submission
+        function handleCheckout(e) {
+            e.preventDefault();
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            const address = document.getElementById("address").value;
+            const total = parseFloat(document.getElementById("checkoutTotal").textContent);
+
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            const newOrder = {
+                id: "BG4-" + Math.floor(10000 + Math.random() * 90000),
+                date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+                status: "pending",
+                items: cart,
+                address: address,
+                total: total
+            };
+            orders.push(newOrder);
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            const modal = document.getElementById("orderModal");
+            if (modal) {
+                document.getElementById("orderId").textContent = newOrder.id;
+                document.getElementById("orderDate").textContent = newOrder.date;
+                document.getElementById("orderTotal").textContent = newOrder.total.toFixed(2);
+                document.getElementById("orderAddress").textContent = newOrder.address;
+                modal.style.display = "flex";
+            }
+
+            localStorage.removeItem("cart");
+            renderOrderSummary();
+        }
+
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
